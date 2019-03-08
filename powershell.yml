@@ -1,5 +1,5 @@
 ---
-- name: Insall PowerShell
+- name: Install PowerShell
   hosts: all
   tasks: 
     - name: Install Repository for RedHat

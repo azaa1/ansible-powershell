@@ -1,0 +1,40 @@
+---
+- name: Insall PowerShell
+  hosts: all
+  tasks: 
+    - name: Install Repository for RedHat
+      when: ansible_os_family == "RedHat" 
+      get_url:
+        url: https://packages.microsoft.com/config/rhel/7/prod.repo
+        dest: /etc/yum.repos.d/powershell.repo
+    
+    - name: Install PowerShell on RedHat
+      when: ansible_os_family == "RedHat" 
+      yum:
+        name: powershell
+        state: installed      
+
+
+    - name: Install Repository on Ubuntu
+      when: ansible_distribution == "Ubuntu"
+      apt:
+        deb: https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+
+    - name: Install Package on Ubuntu
+      when: ansible_distribution == "Ubuntu"
+      apt:  
+        deb: packages-microsoft-prod.deb
+        state: present
+ 
+    - name: Update Packages on Ubuntu
+      when: ansible_distribution == "Ubuntu"
+      apt:
+        name: "*"
+        state: latest
+        force_apt_get: yes
+
+    - name: Install PowerShell on Ubuntu
+      when: ansible_distribution == "Ubuntu"
+      apt: 
+        name: powershell
+        state: latest
